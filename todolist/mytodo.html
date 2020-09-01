@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html body{
+            margin:0;
+            padding:0;
+            background: #cdcdcd;
+        }
+        header{
+            height: 50px;
+            background:#323232;
+        }
+        label{
+            display: inline-block;
+            color:#dddddd;
+            margin-top:10px;
+            margin-left:25%;
+            font-size:24px;
+        }
+        #shuru{
+            width: 27%;
+            height:1.8em;
+            border-radius: 8px;
+            float:right;
+            margin-top:10px;
+            margin-right: 28%;
+        }
+        h3{
+            margin-left:25%;
+        }
+        footer{
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        span{
+            background: #e6e6fa;
+            font-size:14px;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: center;
+            width: 18px;
+            margin-left:52%;
+            color: #666;
+
+        }
+        li{
+            list-style: none;
+            width: 50%;
+            height:1.8em;
+            background: white;
+            border-radius: 5px;
+            margin:10px 22.5%;
+        }
+        ul>li>input{
+            display: inline;
+           
+
+        }
+        ul>li>p{
+            display: inline;
+        }
+        ul>li>a>span{
+            text-decoration: none;
+            float:right;
+            margin:10px;
+            cursor: pointer;
+            /* margin-left: 450px; */
+        }
+       
+    </style>
+</head>
+<body>
+     <header>
+         <form action="javascript:readaction()" id="biaodan">
+            <label >ToDoList</label>
+            <input type="text" placeholder="   添加ToDo" id="shuru">
+         </form>
+     </header>
+     <section>
+         <h3>正在进行<span>0</span></h3>
+         <ul id="zheng">
+         </ul>
+         <h3>已经完成<span>0</span></h3>
+         <ul id="yijing">
+             
+         </ul>
+     </section>
+     <footer>
+        Copyright @ 2020 todolist.cn <a href="">clear</a>
+     </footer>
+    <script>
+        var i=0;
+        function readaction(){
+            var inp=document.getElementById("shuru");
+            var fo=document.getElementById("biaodan");
+            if(shuru.value==""){
+                alert("请填写此字段")
+            }
+            else{
+                add(inp.value);
+                fo.reset();
+            }
+
+        }
+        function add(te){
+            var text=te;
+            var zhen=document.getElementById("zheng");
+            if(!i){
+                // console.log(ids);
+                zhen.innerHTML="<li>"+"<input type='checkbox' onclick='update(this)'+ name='zhe'"
+                + "id="+'zh'+i+">"
+                +"<p>"+te+"</p>"
+                +"<a id='clea' onclick='re(this)'><span>删</span></a>"
+                +"</li>";
+                i++;
+            }
+            else{
+                zhen.innerHTML=zheng.innerHTML+"<li>"+"<input type='checkbox' onclick='update(this)'+ name='zhe'"
+                + "id="+'zh'+i+">"
+                +"<p>"+te+"</p>"
+                +"<a id='clea' onclick='re(this)'><span>删</span></a>"
+                +"</li>";
+                i++;
+            }
+        }
+        function update(e){
+            var te=document.getElementById(e.id);
+            var yi=document.getElementById("yijing");
+            var tex=te.nextSibling.innerHTML;
+            if(e.name=="zhe"){
+                yi.innerHTML="<li>"+"<input type='checkbox' onclick='update(this)'+ name='yi'"
+                + "id="+'yi'+i+">"
+                +"<p>"+tex+"</p>"
+                +"<a id='clea' onclick='re(this)'><span>删</span></a>"
+                +"</li>"+yi.innerHTML;
+                te.parentNode.parentNode.removeChild(te.parentNode);
+            }
+            if(e.name=="yi"){
+                add(e.nextSibling.innerHTML);
+                te.parentNode.parentNode.removeChild(te.parentNode);
+            }
+        }
+        function re(e){
+            var te=document.getElementById(e.id);
+            te.parentNode.parentNode.removeChild(te.parentNode);
+        }
+    </script>
+</body>
+</html>

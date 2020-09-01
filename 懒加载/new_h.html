@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            /* display: block; */
+            width:100%;
+            height: 300px;
+            margin-bottom: 20px;
+            border:solid .1em black;
+        }
+    </style>
+</head>
+<body>
+    <img data-src="http://unsplash.it/400/401" alt="">
+    <img data-src="http://unsplash.it/400/501" alt="">
+    <img data-src="http://unsplash.it/400/601" alt="">
+    <img data-src="http://unsplash.it/400/701" alt="">
+    <img data-src="http://unsplash.it/400/801" alt="">
+    <img data-src="http://unsplash.it/400/901" alt="">
+    <img data-src="http://unsplash.it/400/400" alt="">
+    <img data-src="http://unsplash.it/400/500" alt="">
+    <img data-src="http://unsplash.it/400/600" alt="">
+    <img data-src="http://unsplash.it/400/700" alt="">
+    <img data-src="http://unsplash.it/400/800" alt="">
+    <img data-src="http://unsplash.it/400/900" alt="">
+    <img data-src="http://unsplash.it/400/201" alt="">
+    <img data-src="http://unsplash.it/400/301" alt="">
+
+    <script>
+        var imgs=document.querySelectorAll('img');
+        function cheack(){
+            var H=window.innerHeight;
+            var S = document.documentElement.scrollTop || document.body.scrollTop;
+            console.log(S);
+            for(var i=0;i<imgs.length;i++){
+                if(imgs[i].offsetTop<=(H+S)){
+                    imgs[i].src=imgs[i].getAttribute("data-src");
+                }
+            }
+        }
+        window.onload=window.onscroll=function(){
+            cheack();
+            
+        }
+       
+    </script>
+</body>
+</html>
