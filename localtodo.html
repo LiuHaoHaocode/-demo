@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html body{
+            margin:0;
+            padding:0;
+            background: #cdcdcd;
+        }
+        header{
+            height: 50px;
+            background:#323232;
+        }
+        label{
+            display: inline-block;
+            color:#dddddd;
+            margin-top:10px;
+            margin-left:25%;
+            font-size:24px;
+        }
+        #shuru{
+            width: 27%;
+            height:1.8em;
+            border-radius: 8px;
+            float:right;
+            margin-top:10px;
+            margin-right: 28%;
+        }
+        h3{
+            margin-left:25%;
+        }
+        footer{
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        span{
+            background: #e6e6fa;
+            font-size:14px;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: center;
+            width: 18px;
+            margin-left:52%;
+            color: #666;
+
+        }
+        li{
+            list-style: none;
+            width: 50%;
+            height:1.8em;
+            background: white;
+            border-radius: 5px;
+            margin:10px 22.5%;
+        }
+        ul>li>input{
+            display: inline;
+           
+
+        }
+        ul>li>p{
+            display: inline;
+        }
+        ul>li>a>span{
+            text-decoration: none;
+            float:right;
+            margin:10px;
+            cursor: pointer;
+            /* margin-left: 450px; */
+        }
+        a{
+            text-decoration: none;
+            color:#666
+        }
+       
+    </style>
+</head>
+<body>
+     <header>
+         <form action="javascript:readaction()" id="biaodan">
+            <label >ToDoList</label>
+            <input type="text" placeholder="   添加ToDo" id="shuru">
+         </form>
+     </header>
+     <section>
+         <h3>正在进行<span>0</span></h3>
+         <ul id="zheng">
+         </ul>
+         <h3>已经完成<span>0</span></h3>
+         <ul id="yijing">
+             
+         </ul>
+     </section>
+     <footer>
+        Copyright @ 2020 todolist.cn <a href="javascript:clear()">clear</a>
+     </footer>
+     <script>
+         function clear(){
+             localStorage.clear();
+             load();
+         }
+         var zhen=document.getElementById("zheng");
+         var yi=document.getElementById("yijing");
+         var todocount=0;
+         var donecount=0;
+         //加载表单内容
+         function readaction(){
+             var shu=document.getElementById("shuru");
+             var bi=document.getElementById("biaodan");
+            //  console.log(typeof shu.value);
+             if(shu.value==""){
+                 alert("此字段不能为空")
+             }
+             else{
+               var todo=loaddata(); 
+               todo.push({title:shu.value,"done":false});
+               savedata(todo);
+               load();
+               bi.reset();
+             }
+         }
+
+        //加载localstorage的数据到页面
+         function load(){ 
+             var todostring="";
+             var donestring="";
+             var conlection=localStorage.getItem("data");
+             var data=JSON.parse(conlection);
+            //  console.log(data.length);
+           
+             if(conlection!=null){
+                for(var j=0;j<data.length;j++){
+                 if(data[j].done){
+                     donestring+="<li>"+"<input type='checkbox'"+ " onclick='update(this)' name='yi'"
+                + "id="+j+">"
+                +"<p>"+data[j].title+"</p>"
+                +"<a id="+j+"  onclick='remove(this)'><span>删</span></a>"
+                +"</li>";
+                donecount++
+                 }
+                 else{
+                     todostring+="<li>"+"<input type='checkbox'"+" onclick='update(this)' name='zhe'"
+                + "id="+j+">"
+                +"<p>"+data[j].title+"</p>"
+                +"<a id="+j+" onclick='remove(this)'><span>删</span></a>"
+                +"</li>";
+                todocount++
+                 }
+             }
+                zhen.innerHTML=todostring;
+                yi.innerHTML=donestring;
+             }
+             else{
+             
+             zhen.innerHTML="";
+             yi.innerHTML="";
+             }
+                
+         }
+         //储存提交的List内容
+         function savedata(todo){
+             var todo=localStorage.setItem("data",JSON.stringify(todo));
+         }
+         //加载当前localstorage储存
+         function loaddata(){
+            var load=JSON.parse(localStorage.getItem("data"));
+            if(load!=null){
+                return load;
+            }
+            else{
+                return [];
+            }
+         }
+         //刷新状态
+         function update(e){
+             var d=JSON.parse(localStorage.getItem("data"));
+             clear();
+             for(var i=0;i<d.length;i++){
+               
+                 if(d[i].done){
+                     if(e.id==i.toString()){
+                       
+                         d[i].done=false;
+                         
+                     }
+                 }else{
+                    if(e.id==i.toString()){
+                        
+                         d[i].done=true;
+                     }
+                 }
+             }
+             savedata(d);
+             load();
+         }
+         
+         function remove(e){
+            var d=JSON.parse(localStorage.getItem("data"));
+            clear();
+            
+            for(var i=0;i<d.length;i++){
+                console.log(e.id);
+                console.log(i.toString());
+                if(e.id==i.toString()){
+                    console.log(111);
+                    d.splice(i,1);
+                }
+            }
+            savedata(d);
+            load();
+         }
+       window.onload=load;  
+
+     </script>
